@@ -2,9 +2,9 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from products import enums
-from core import BaseAbstractModel
+# from core import BaseAbstractModel
 
-class Product(BaseAbstractModel):
+class Product(models.Model):
     # id otomatik oluşturulacaktır. bu yüzden bu sütun için bişi tanımlamaya gerek yok.
     # sadece custom bi id yapılacak ise override edilir.
 
