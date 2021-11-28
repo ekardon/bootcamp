@@ -2,9 +2,10 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from products import enums
-# from core import BaseAbstractModel
+from core import models as core_models
 
-class Product(models.Model):
+
+class Product(core_models.BaseAbstractModel):
     # id otomatik oluşturulacaktır. bu yüzden bu sütun için bişi tanımlamaya gerek yok.
     # sadece custom bi id yapılacak ise override edilir.
 
@@ -35,4 +36,44 @@ class Product(models.Model):
         verbose_name_plural = _("products")
 
     def __str__(self):
-        return self.sku
+        return f"{self.sku} - {self.name}"
+
+
+class Stock(core_models.BaseAbstractModel):
+    product = models.OneToOneField(
+        to=Product,
+        verbose_name=_("Product"),
+        on_delete=models.PROTECT,
+    )
+    quantity = models.PositiveIntegerField(
+        verbose_name=_("Quantity"),
+    )
+
+    class Meta:
+        verbose_name = _("stock")
+        verbose_name_plural = _("stocks")
+
+    def __str__(self):
+        return f"{self.product} - {self.quantity}"
+
+
+class Price(core_models.BaseAbstractModel):
+    product = models.OneToOneField(
+        to=Product,
+        verbose_name=_("Product"),
+        on_delete=models.PROTECT,
+    )
+    amount = models.DecimalField(
+        verbose_name=_("Amount"),
+        max_digits=10,
+        decimal_places=2,
+    )
+
+    class Meta:
+        verbose_name = _("price")
+        verbose_name_plural = _("prices")
+
+    def __str__(self):
+        return f"{self.product} - {self.amount}"
+
+
