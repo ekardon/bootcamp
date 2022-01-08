@@ -10,25 +10,46 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+import environ
 from pathlib import Path
+
+
+# Environment variables type casting and default value assignment
+# If we only want to cast variable type we can do so as seen in ALLOWED_HOSTS
+# If we also want to set a default value, we give a tuple with type and a value
+# Ex:
+#   env = environ.Env(
+#       DEBUG=(bool, False),
+#       ALLOWED_HOSTS=list,
+#   )
+# P.S. type casting can be done later on when env is called with cast parameter
+# Ex:
+#   env(DEBUG, cast=bool, default=False)
+# There are also some predefined type casts
+# Ex:
+#   env.bool("DEBUG", default=False)
+#   env.list("ALLOWED_HOSTS")
+
+env = environ.Env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 import django.db.models
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Bring environment variables from .env file
+environ.Env.read_env(Path.joinpath(BASE_DIR, ".env"))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-i#9j1m!$i1sx=1l9$p!^wxt6%2sa3r+2^d2w-an)-g600i)6_1'
+SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool("DEBUG", default=False)
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
 
 # Application definition
 
@@ -78,16 +99,8 @@ WSGI_APPLICATION = 'ecommerce.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'bootcampecommerce',
-        'HOST': "localhost",
-        "USER": "bootcamp",
-        "PASSWORD": "123456",
-        "PORT": "5432",
-    }
+    'default': env.db(),
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -124,7 +137,7 @@ LANGUAGES = [
 ]
 
 # Timezone is selected based on deployed server is location
-TIME_ZONE = 'Europe/Istanbul'
+TIME_ZONE = env("TIME_ZONE")
 
 # Internationalization
 USE_I18N = True
