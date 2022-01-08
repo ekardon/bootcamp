@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "django.contrib.sites",
+    "django_extensions",
 ]
 
 MIDDLEWARE = [
@@ -124,10 +126,13 @@ LANGUAGES = [
 # Timezone is selected based on deployed server is location
 TIME_ZONE = 'Europe/Istanbul'
 
+# Internationalization
 USE_I18N = True
 
+# Localization
 USE_L10N = True
 
+# Timezones
 USE_TZ = True
 
 
@@ -142,5 +147,5 @@ MEDIA_URL = "/media/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
-
+# UID is better for making project harder to be fiddled by 3rd parties
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
