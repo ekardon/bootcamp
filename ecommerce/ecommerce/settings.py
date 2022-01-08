@@ -19,7 +19,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 env = environ.Env()
 
 # Take environment variables from .env file
-env.read_env(str(BASE_DIR / '.env'))
+env.read_env(BASE_DIR / '.env')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -42,7 +42,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "django_extensions"
+    "django_extensions",
+    "core",
+    "customers",
 ]
 
 MIDDLEWARE = [
@@ -134,3 +136,6 @@ MEDIA_URL = '/media/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Use the custom user model we created as Default user model
+AUTH_USER_MODEL = "customers.Customer"
