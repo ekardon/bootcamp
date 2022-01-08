@@ -33,8 +33,6 @@ from pathlib import Path
 env = environ.Env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-import django.db.models
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Bring environment variables from .env file
@@ -49,6 +47,7 @@ SECRET_KEY = env("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DEBUG", default=False)
 
+# Deployed server's ip address or development environment's ip
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
 
 # Application definition
@@ -127,6 +126,7 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = 'en'
 
 
+# Do not one-line with lambda. it's against PEP-8
 def gettext_noop(s):
     return s
 
@@ -148,17 +148,16 @@ USE_L10N = True
 # Timezones
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
 
 # Media files (user uploaded files; Profile picture, pdf etc.)
-
 MEDIA_URL = "/media/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
-# UID is better for making project harder to be fiddled by 3rd parties
+# UUID4 is better for making project harder to be fiddled by 3rd parties
+# DEFAULT_AUTO_FIELD = "django.db.models.UUIDField"
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
